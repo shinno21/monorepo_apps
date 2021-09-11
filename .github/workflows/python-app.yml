@@ -25,8 +25,8 @@ jobs:
           if [ -f some_project/requirements_ci.txt ]; then pip install -r some_project/requirements_ci.txt; fi
       - name: Lint with flake8
         run: |
+          cd some_project
           flake8 some_project --count
       - name: Test with pytest
         run: |
-          cd some_project
           pytest
