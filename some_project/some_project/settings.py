@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     # TODO add your app.
+    "custom_auth",
     "some_api",
 ]
 
@@ -137,6 +138,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
+AUTH_USER_MODEL = "custom_auth.User"
 
 ######################
 # ログ設定
