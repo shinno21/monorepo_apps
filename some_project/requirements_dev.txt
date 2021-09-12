@@ -1,5 +1,5 @@
 -r requirements_ci.txt
 black==21.8b0
 nplusone==1.0.0
-
+django-silk==4.1.0
 

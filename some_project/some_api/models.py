@@ -6,8 +6,13 @@ from db.models import BaseModel
 class Manufacturer(BaseModel):
     """製造元"""
 
-    cd = models.CharField("コード", max_length=10)
-    name = models.CharField("名称", max_length=40)
+    cd = models.CharField("コード", primary_key=True, max_length=10)
+    name = models.CharField(
+        "名称",
+        unique=True,
+        max_length=40,
+    )
+    is_foreign = models.BooleanField("国外企業フラグ", default=False)
 
     class Meta:
         verbose_name = verbose_name_plural = "製造元"
@@ -19,10 +24,10 @@ class Manufacturer(BaseModel):
 class Product(BaseModel):
     """製品"""
 
-    cd = models.CharField("コード", max_length=20)
-    name = models.CharField("名称", max_length=40)
+    cd = models.CharField("コード", primary_key=True, max_length=20)
+    name = models.CharField("名称", unique=True, max_length=40)
     price = models.IntegerField("価格")
-    made_by = models.ForeignKey(
+    manufacturer = models.ForeignKey(
         Manufacturer,
         related_name="product_manufacturer",
         verbose_name="製造元",
@@ -42,8 +47,8 @@ ORDER_STATUS_CHOICES = (("10", "受注済"), ("20", "発送準備中"), ("30", "
 class Order(BaseModel):
     """注文"""
 
-    ordered_by = models.CharField("発注者氏名", max_length=20)
-    ordered_at = models.DateTimeField("発注日")
+    order_person = models.CharField("発注者氏名", max_length=20)
+    order_day = models.DateTimeField("発注日")
     description = models.CharField("備考", max_length=1000)
     is_express = models.BooleanField("お急ぎ便フラグ")
     status = models.CharField("ステータス", choices=ORDER_STATUS_CHOICES, max_length=2)

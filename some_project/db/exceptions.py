@@ -1,19 +1,19 @@
 # coding: utf-8
-class CommonException(Exception):
+class BaseException(Exception):
     pass
 
 
-class TargetRecordDoesNotExist(CommonException):
+class TargetRecordDoesNotExist(BaseException):
     """対象のレコードが存在しない"""
 
 
-class NoReferenceToUpdatedDateTime(CommonException):
+class NoReferenceToUpdatedDateTime(BaseException):
     """更新日時への参照が見つからない"""
 
 
-class NoMatchReaderClass(CommonException):
+class NoMatchReaderClass(BaseException):
     """マッチする読み込みクラスがありません"""
 
 
-class NotSupported(CommonException):
+class NotSupported(BaseException):
     """サポートされていません"""
