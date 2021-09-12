@@ -29,4 +29,5 @@ jobs:
           flake8 some_project --count
       - name: Test with pytest
         run: |
+          cd some_project
           pytest
