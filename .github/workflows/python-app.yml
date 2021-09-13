@@ -3,23 +3,20 @@
 
 name: Python application
 
-env:
-  DJANGO_PROJECT: "some_project"
-  FILE_PATTERN: "src/**/*.{ts,tsx,js,jsx}"
-
 on:
   push:
     branches: [develop]
     paths:
-      - "${DJANGO_PROJECT}/**"
+      - "${some_project}/**"
   pull_request:
     branches: [develop]
     paths:
-      - "${DJANGO_PROJECT}/**"
+      - "${some_project}/**"
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      DJANGO_PROJECT: "some_project"
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9

@@ -10,6 +10,7 @@ export class AnyPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("Hello Angular")
   }
 
 }
