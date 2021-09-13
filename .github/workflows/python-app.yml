@@ -3,12 +3,19 @@
 
 name: Python application
 
+env:
+  DJANGO_PROJECT: "some_project"
+  FILE_PATTERN: "src/**/*.{ts,tsx,js,jsx}"
+
 on:
   push:
     branches: [develop]
+    paths:
+      - "${DJANGO_PROJECT}/**"
   pull_request:
     branches: [develop]
-
+    paths:
+      - "${DJANGO_PROJECT}/**"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,11 +29,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f some_project/requirements_ci.txt ]; then pip install -r some_project/requirements_ci.txt; fi
+          if [ -f ${DJANGO_PROJECT}/requirements_ci.txt ]; then pip install -r ${DJANGO_PROJECT}/requirements_ci.txt; fi
       - name: Lint with flake8
         run: |
-          cd some_project
-          flake8 some_project --count
+          cd ${DJANGO_PROJECT}
+          flake8 ${DJANGO_PROJECT} --count
       - name: Test with pytest
         run: |
           pytest
