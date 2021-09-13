@@ -3,22 +3,21 @@
 
 name: Node.js CI
 
-env:
-  ANGULAR_PROJECT: "any-project"
-  FILE_PATTERN: "src/**/*.{ts,tsx,js,jsx}"
 on:
   push:
     branches: [ develop ]
     paths:
-      - "${ANGULAR_PROJECT}/**"
+      - "any-project/**"
   pull_request:
     branches: [ develop ]
     paths:
-      - "${ANGULAR_PROJECT}/**"
+      - "any-project/**"
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      ANGULAR_PROJECT: "any-project"
+      FILE_PATTERN: "src/**/*.{ts,tsx,js,jsx}"
 
     steps:
     - uses: actions/checkout@v2
