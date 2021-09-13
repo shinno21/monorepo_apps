@@ -6,8 +6,12 @@ name: Python application
 on:
   push:
     branches: [develop]
+    paths:
+      - "some_project/**"
   pull_request:
     branches: [develop]
+    paths:
+      - "some_project/**"
 
 jobs:
   build:
