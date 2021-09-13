@@ -7,11 +7,11 @@ on:
   push:
     branches: [develop]
     paths:
-      - "${some_project}/**"
+      - "some_project/**"
   pull_request:
     branches: [develop]
     paths:
-      - "${some_project}/**"
+      - "some_project/**"
 jobs:
   build:
     runs-on: ubuntu-latest

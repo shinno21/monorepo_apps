@@ -3,22 +3,21 @@
 
 name: Node.js CI
 
-env:
-  ANGULAR_PROJECT: "any-project"
-  FILE_PATTERN: "src/**/*.{ts,tsx,js,jsx}"
 on:
   push:
     branches: [ develop ]
     paths:
-      - "${ANGULAR_PROJECT}/**"
+      - "any-project/**"
   pull_request:
     branches: [ develop ]
     paths:
-      - "${ANGULAR_PROJECT}/**"
+      - "any-project/**"
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      ANGULAR_PROJECT: "any-project"
+      FILE_PATTERN: "src/**/*.{ts,tsx,js,jsx}"
 
     steps:
     - uses: actions/checkout@v2
@@ -41,7 +40,7 @@ jobs:
     - name: Build the Project
       run: |
         cd ${ANGULAR_PROJECT}
-        npm run build
+        npm run build --if-present
     - name: Run Prettier
       run: |
         cd ${ANGULAR_PROJECT}
@@ -53,4 +52,4 @@ jobs:
     - name: Run test
       run: |
         cd ${ANGULAR_PROJECT}
-        npm run test
+        npm run test -- --watch=false --browsers=ChromeHeadless
