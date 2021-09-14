@@ -6,7 +6,7 @@ from db.models import BaseModel
 
 
 class Role(BaseModel):
-    """"ロール"""
+    """ロール"""
 
     cd = models.CharField("コード", max_length=20)
     name = models.CharField("名称", max_length=40)
@@ -35,7 +35,7 @@ class User(BaseModel, auth_models.AbstractUser):
 
 
 class UserRole(BaseModel):
-    """"ユーザロール"""
+    """ユーザロール"""
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
