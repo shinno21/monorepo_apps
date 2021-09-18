@@ -65,13 +65,13 @@ class OrderDetail(BaseModel):
 
     order = models.ForeignKey(
         Order,
-        related_name="orderdetail_order",
+        related_name="order_details",
         verbose_name="注文",
         on_delete=models.CASCADE,
     )
     product = models.ForeignKey(
         Product,
-        related_name="orderdetail_product",
+        related_name="ordered_product",
         verbose_name="製造元",
         on_delete=models.CASCADE,
     )
