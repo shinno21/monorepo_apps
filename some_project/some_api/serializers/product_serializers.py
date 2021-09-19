@@ -3,14 +3,11 @@ from rest_framework import serializers
 from ..models import Product
 from db.models import BaseModel
 from messages.error import NUM_RANGE_ERROR
+from .manufacturer_serializers import ManufacturerSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
     """ProductのSerializer"""
-
-    manufacturer_name = serializers.CharField(
-        source="manufacturer.name", read_only=True
-    )
 
     class Meta:
         model = Product
@@ -19,8 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "name",
             "price",
             "manufacturer",
-            "manufacturer_name",
-        ] + [base_field.name for base_field in BaseModel._meta.get_fields()]
+        ] + BaseModel.base_fields_as_dict()
 
     def validate_price(self, value):
         MIN = 0
@@ -30,3 +26,18 @@ class ProductSerializer(serializers.ModelSerializer):
                 NUM_RANGE_ERROR.format(attr="値段", min=0, max=100000)
             )
         return value
+
+
+class RetrieveProductSerializer(serializers.ModelSerializer):
+    """ProductのSerializer"""
+
+    manufacturer = ManufacturerSerializer(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = [
+            "cd",
+            "name",
+            "price",
+            "manufacturer",
+        ] + BaseModel.base_fields_as_dict()
