@@ -96,7 +96,9 @@ def fill_common_info(obj, request, update=False):
     :request: リクエストオブジェクト
     :update: 更新の場合はTrueを指定する
     """
-    if request.user and request.user.is_authenticated():
+    if request.user:
+        # TODO is_authenticated があると認証が必要になるためコメント（テストの時も困りそう）
+        # if request.user and request.user.is_authenticated():
         # 更新ユーザーID
         obj.upd_user_id = request.user.username
         if not update:
@@ -156,6 +158,10 @@ class BaseModel(models.Model):
                 update = self.cre_dt is not None
             self.fill_common_info(request, update=update)
         return save_exclusive(self, using=using)
+
+    @classmethod
+    def base_fields_as_dict(cls):
+        return [base_field.name for base_field in cls._meta.get_fields()]
 
     class Meta:
         abstract = True

@@ -49,7 +49,7 @@ class Order(BaseModel):
 
     order_person = models.CharField("発注者氏名", max_length=20)
     order_day = models.DateTimeField("発注日")
-    description = models.CharField("備考", max_length=1000)
+    description = models.CharField("備考", max_length=1000, blank=True, null=True)
     is_express = models.BooleanField("お急ぎ便フラグ")
     status = models.CharField("ステータス", choices=ORDER_STATUS_CHOICES, max_length=2)
 
@@ -63,9 +63,15 @@ class Order(BaseModel):
 class OrderDetail(BaseModel):
     """注文明細"""
 
+    order = models.ForeignKey(
+        Order,
+        related_name="order_details",
+        verbose_name="注文",
+        on_delete=models.CASCADE,
+    )
     product = models.ForeignKey(
         Product,
-        related_name="orderdetail_product",
+        related_name="ordered_product",
         verbose_name="製造元",
         on_delete=models.CASCADE,
     )

@@ -15,7 +15,7 @@ class ManufacturerSerializer(serializers.ModelSerializer):
             "cd",
             "name",
             "is_foreign",
-        ] + [base_field.name for base_field in BaseModel._meta.get_fields()]
+        ] + BaseModel.base_fields_as_dict()
 
     def validate_cd(self, value):
         if not is_alnum_ascii(value):
