@@ -1,4 +1,3 @@
-# coding: utf-8
 """テスト用のsettings
 """
 from .settings import *
