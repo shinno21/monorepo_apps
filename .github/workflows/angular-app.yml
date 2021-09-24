@@ -34,22 +34,22 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
     - name: Install Dependencies from package-lock.json
+      working-directory: ${ANGULAR_PROJECT}
       run: |
-        working-directory ${ANGULAR_PROJECT}
         npm ci
     - name: Build the Project
+      working-directory: ${ANGULAR_PROJECT}
       run: |
-        working-directory ${ANGULAR_PROJECT}
         npm run build --if-present
-    - name: Run Prettier
+    - name: Check Format  Prettier
+      working-directory: ${ANGULAR_PROJECT}
       run: |
-        working-directory ${ANGULAR_PROJECT}
         npx prettier --check ${FILE_PATTERN}
-    - name: Run es-lint
+    - name: Lint with es-lint
+      working-directory: ${ANGULAR_PROJECT}
       run: |
-        working-directory ${ANGULAR_PROJECT}
         npm run lint
     - name: Run test
+      working-directory: ${ANGULAR_PROJECT}
       run: |
-        working-directory ${ANGULAR_PROJECT}
         npm run test -- --watch=false --browsers=ChromeHeadless
