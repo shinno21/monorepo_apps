@@ -41,7 +41,7 @@ jobs:
         # --include (\.pyi?|\.ipynb)$
         # --exclude /(\.direnv|\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|venv|\.svn|_build|buck-out|build|dist)/
         run: |
-          ${{ env.pythonLocation }}/Scripts/black --check ./
+          black --check .
       - name: Lint with flake8
         working-directory: ${DJANGO_PROJECT}
         run: |
