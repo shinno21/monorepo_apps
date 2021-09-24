@@ -1,4 +1,3 @@
-# coding: utf-8
 from django.db import models
 from django.utils import timezone
 from django.db.models import signals
@@ -14,7 +13,7 @@ UPDATE_DATETIME_FIELD_NAME = "upd_dt"
 def save_exclusive(
     obj, using=None, update_datetime_field_name=UPDATE_DATETIME_FIELD_NAME
 ):
-    """更新日時を使った排他操作、更新に成功した場合Trueを返す。モデルはRsiCommonInfoを継承していることを想定"""
+    """更新日時を使った排他操作、更新に成功した場合Trueを返す。モデルはBaseModelを継承していることを想定"""
 
     cls = obj.__class__
     meta = cls._meta
@@ -71,43 +70,18 @@ def save_exclusive(
     return True
 
 
-def resolve_view_name(request):
-    """リクエストオブジェクトからviewの名前を返す関数
-    :param request: リクエスト
-    :return: viewの名前
-    """
-
-    # ViewSetの場合は属性を参照する
-    if hasattr(request, VIEW_CLASS_ATTRIBUTE_NAME):
-        return getattr(request, VIEW_CLASS_ATTRIBUTE_NAME)
-
-    func = request.resolver_match.func
-    if hasattr(func, "__self__"):
-        view_real = func.__self__.__class__
-    else:
-        view_real = func
-
-    return u"{}.{}".format(view_real.__module__, view_real.__name__)
-
-
-def fill_common_info(obj, request, update=False):
+def fill_base_fields(obj, username, funcname, update=False):
     """共通管理項目(BaseModel)の値を埋める関数
-    :obj: 共通管理項目のカラムを持つモデルのインスタンス
-    :request: リクエストオブジェクト
-    :update: 更新の場合はTrueを指定する
+    :param obj: 共通管理項目のカラムを持つモデルのインスタンス
+    :param username: ユーザ名(OA番号)
+    :param funcname: 実行関数名(最上位の関数を設定する)
+    :param update: 更新の場合はTrueを指定する
     """
-    if request.user and request.user.is_authenticated():
-        # 更新ユーザーID
-        obj.upd_user_id = request.user.username
-        if not update:
-            # 作成ユーザーID
-            obj.cre_user_id = obj.upd_user_id
-    if request.resolver_match:
-        # 更新プログラムIDはviewの名前
-        obj.upd_pgm_id = resolve_view_name(request)
-        if not update:
-            # 作成プログラムID
-            obj.cre_pgm_id = obj.upd_pgm_id
+    obj.upd_user_id = username
+    obj.upd_pgm_id = funcname
+    if not update:
+        obj.cre_user_id = obj.upd_user_id
+        obj.cre_pgm_id = obj.upd_pgm_id
 
 
 class UpdateDateTimeField(models.DateTimeField):
@@ -137,9 +111,9 @@ class BaseModel(models.Model):
     upd_pgm_id = models.CharField("最終更新プログラムID", max_length=100, editable=False)
     upd_dt = UpdateDateTimeField("更新日時")
 
-    def fill_common_info(self, request, update=False):
+    def fill_base_fields(self, username, funcname, update=False):
         """リクエストオブジェクトを使って共通管理項目を埋めるショートカットメソッド"""
-        fill_common_info(self, request, update)
+        fill_base_fields(self, username, funcname, update)
 
     def save_exclusive(self, request=None, using=None):
         """排他制御付きの保存メソッド
@@ -156,6 +130,10 @@ class BaseModel(models.Model):
                 update = self.cre_dt is not None
             self.fill_common_info(request, update=update)
         return save_exclusive(self, using=using)
+
+    @classmethod
+    def base_fields_as_dict(cls):
+        return [base_field.name for base_field in cls._meta.get_fields()]
 
     class Meta:
         abstract = True

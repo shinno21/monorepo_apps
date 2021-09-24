@@ -27,9 +27,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f ${DJANGO_PROJECT}/requirements_ci.txt ]; then pip install -r ${DJANGO_PROJECT}/requirements_ci.txt; fi
+      - name: Check Format with black
+        # black targets
+        # --include (\.pyi?|\.ipynb)$
+        # --exclude /(\.direnv|\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|venv|\.svn|_build|buck-out|build|dist)/
+        run: |
+          working-directory ${DJANGO_PROJECT}
+          black --check ${DJANGO_PROJECT}
       - name: Lint with flake8
         run: |
-          cd ${DJANGO_PROJECT}
+          working-directory ${DJANGO_PROJECT}
           flake8 ${DJANGO_PROJECT} --count
       - name: Test with pytest
         run: |

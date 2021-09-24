@@ -35,21 +35,21 @@ jobs:
             ${{ runner.os }}-
     - name: Install Dependencies from package-lock.json
       run: |
-        cd ${ANGULAR_PROJECT}
+        working-directory ${ANGULAR_PROJECT}
         npm ci
     - name: Build the Project
       run: |
-        cd ${ANGULAR_PROJECT}
+        working-directory ${ANGULAR_PROJECT}
         npm run build --if-present
     - name: Run Prettier
       run: |
-        cd ${ANGULAR_PROJECT}
-        npx prettier --write ${FILE_PATTERN}
+        working-directory ${ANGULAR_PROJECT}
+        npx prettier --check ${FILE_PATTERN}
     - name: Run es-lint
       run: |
-        cd ${ANGULAR_PROJECT}
+        working-directory ${ANGULAR_PROJECT}
         npm run lint
     - name: Run test
       run: |
-        cd ${ANGULAR_PROJECT}
+        working-directory ${ANGULAR_PROJECT}
         npm run test -- --watch=false --browsers=ChromeHeadless
