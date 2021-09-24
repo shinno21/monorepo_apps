@@ -35,15 +35,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f ./${DJANGO_PROJECT}/${PYTHON_REQUIREMENTS_FILE} ]; then pip install -r ./${DJANGO_PROJECT}/${PYTHON_REQUIREMENTS_FILE}; fi
-#      - name: Check Format with black
-#        working-directory: ./${DJANGO_PROJECT}
-#        # black targets
-#        # --include (\.pyi?|\.ipynb)$
-#        # --exclude /(\.direnv|\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|venv|\.svn|_build|buck-out|build|dist)/
-#        run: |
-#          black --check .
+      - name: Check Format with black
+        working-directory: ./${{ env.DJANGO_PROJECT }}
+        # black targets
+        # --include (\.pyi?|\.ipynb)$
+        # --exclude /(\.direnv|\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|venv|\.svn|_build|buck-out|build|dist)/
+        run: |
+          black --check .
       - name: Lint with flake8
-        working-directory: ./${DJANGO_PROJECT}
+        working-directory: ./${{ env.DJANGO_PROJECT }}
         run: |
           flake8 ./${DJANGO_PROJECT} --count
       - name: Test with pytest
