@@ -41,7 +41,7 @@ jobs:
       working-directory: ./${{ env.ANGULAR_PROJECT }}
       run: |
         npm run build --if-present
-    - name: Check Format  Prettier
+    - name: Check Format with  Prettier
       working-directory: ./${{ env.ANGULAR_PROJECT }}
       run: |
         npx prettier --check ${FILE_PATTERN}
