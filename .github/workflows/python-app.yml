@@ -12,25 +12,40 @@ on:
     branches: [develop]
     paths:
       - "some_project/**"
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      DJANGO_PROJECT: "some_project"
+      PYTHON_REQUIREMENTS_FILE: "requirements_ci.txt"
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+      # 依存関係のキャッシングによるワークフロー高速化
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f some_project/requirements_ci.txt ]; then pip install -r some_project/requirements_ci.txt; fi
-      - name: Lint with flake8
+          if [ -f ./${DJANGO_PROJECT}/${PYTHON_REQUIREMENTS_FILE} ]; then pip install -r ./${DJANGO_PROJECT}/${PYTHON_REQUIREMENTS_FILE}; fi
+      - name: Check Format with black
+        working-directory: ./${{ env.DJANGO_PROJECT }}
+        # black targets
+        # --include (\.pyi?|\.ipynb)$
+        # --exclude /(\.direnv|\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|venv|\.svn|_build|buck-out|build|dist)/
         run: |
-          cd some_project
-          flake8 some_project --count
+          black --check .
+      - name: Lint with flake8
+        working-directory: ./${{ env.DJANGO_PROJECT }}
+        run: |
+          flake8 ./${DJANGO_PROJECT} --count
       - name: Test with pytest
         run: |
           pytest

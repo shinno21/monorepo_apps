@@ -1,0 +1,55 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ develop ]
+    paths:
+      - "any-project/**"
+  pull_request:
+    branches: [ develop ]
+    paths:
+      - "any-project/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ANGULAR_PROJECT: "any-project"
+      FILE_PATTERN: "src/**/*.{ts,tsx,js,jsx}"
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+          cache-name: cache-node-modules
+      with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+    - name: Install Dependencies from package-lock.json
+      working-directory: ./${{ env.ANGULAR_PROJECT }}
+      run: |
+        npm ci
+    - name: Build the Project
+      working-directory: ./${{ env.ANGULAR_PROJECT }}
+      run: |
+        npm run build --if-present
+    - name: Check Format with  Prettier
+      working-directory: ./${{ env.ANGULAR_PROJECT }}
+      run: |
+        npx prettier --check ${FILE_PATTERN}
+    - name: Lint with es-lint
+      working-directory: ./${{ env.ANGULAR_PROJECT }}
+      run: |
+        npm run lint
+    - name: Run test
+      working-directory: ./${{ env.ANGULAR_PROJECT }}
+      run: |
+        npm run test -- --watch=false --browsers=ChromeHeadless
