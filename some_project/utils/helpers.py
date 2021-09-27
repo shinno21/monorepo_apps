@@ -32,11 +32,6 @@ def resolve_view_name(request):
     :param request: リクエスト
     :return: viewの名前(100文字を超える場合は後ろの100文字を返す)
     """
-    VIEW_CLASS_ATTRIBUTE_NAME = "view_class_name"
-
-    # ViewSetの場合は属性を参照する
-    if hasattr(request, VIEW_CLASS_ATTRIBUTE_NAME):
-        return getattr(request, VIEW_CLASS_ATTRIBUTE_NAME)
 
     func = request.resolver_match.func
     if hasattr(func, "__self__"):
