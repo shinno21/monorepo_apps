@@ -8,12 +8,12 @@ def add_fields_to_data(obj: object, data: OrderedDict) -> OrderedDict:
     :return: viewの名前(100文字を超える場合は後ろの100文字を返す)
     """
     sd_list = list(data.items())
-    sd_list.insert(len(sd_list) - 1, ("cre_user_id", obj.cre_user_id))
-    sd_list.insert(len(sd_list) - 1, ("cre_pgm_id", obj.cre_pgm_id))
-    sd_list.insert(len(sd_list) - 1, ("cre_dt", obj.cre_dt))
-    sd_list.insert(len(sd_list) - 1, ("upd_user_id", obj.upd_user_id))
-    sd_list.insert(len(sd_list) - 1, ("upd_pgm_id", obj.upd_pgm_id))
-    sd_list.insert(len(sd_list) - 1, ("upd_dt", obj.upd_dt))
+    sd_list.insert(len(sd_list), ("cre_user_id", obj.cre_user_id))
+    sd_list.insert(len(sd_list), ("cre_pgm_id", obj.cre_pgm_id))
+    sd_list.insert(len(sd_list), ("cre_dt", obj.cre_dt))
+    sd_list.insert(len(sd_list), ("upd_user_id", obj.upd_user_id))
+    sd_list.insert(len(sd_list), ("upd_pgm_id", obj.upd_pgm_id))
+    sd_list.insert(len(sd_list), ("upd_dt", obj.upd_dt))
     added_data = OrderedDict(sd_list)
     return added_data
 
@@ -32,11 +32,6 @@ def resolve_view_name(request):
     :param request: リクエスト
     :return: viewの名前(100文字を超える場合は後ろの100文字を返す)
     """
-    VIEW_CLASS_ATTRIBUTE_NAME = "view_class_name"
-
-    # ViewSetの場合は属性を参照する
-    if hasattr(request, VIEW_CLASS_ATTRIBUTE_NAME):
-        return getattr(request, VIEW_CLASS_ATTRIBUTE_NAME)
 
     func = request.resolver_match.func
     if hasattr(func, "__self__"):
