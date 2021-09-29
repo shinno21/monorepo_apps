@@ -13,7 +13,6 @@ from ..serializers.order_serializers import (
     RetrieveNestedOrderSerializer,
     CreateNestedOrderSerializer,
 )
-from db.exceptions import TargetRecordDoesNotExist
 from utils.helpers import (
     add_fields_to_data,
     add_fields_to_create_data,
@@ -71,7 +70,6 @@ class UpdateOrderView(UpdateAPIView):
 
     def _create_details(self, order, order_datails):
         """注文配下の注文詳細を全登録する"""
-
         for s_od in order_datails:
             od = OrderDetail(order=order, product=s_od["product"], num=s_od["num"])
             od.fill_base_fields(order.upd_user_id)
@@ -86,15 +84,14 @@ class UpdateOrderView(UpdateAPIView):
         order.description = serializer.validated_data["description"]
         order.is_express = serializer.validated_data["is_express"]
         order.status = serializer.validated_data["status"]
-        order.upd_dt = serializer.validated_data["upd_dt"]
-        try:
-            order.fill_base_fields(request.user.username, update=True)
-            order.save_exclusive()
-        except TargetRecordDoesNotExist:
-            return Response(status=status.HTTP_423_LOCKED)
-
+        order.version = serializer.validated_data["version"]
+        order.fill_base_fields(request.user.username, update=True)
+        order.save()
         OrderDetail.objects.filter(order__id=order.id).delete()
         self._create_details(order, serializer.validated_data["order_details"])
+        print("*****3")
+        print(order.version)
+        print(str(serializer.data))
         added_data = add_fields_to_data(order, serializer.data)
         return Response(added_data, status=status.HTTP_200_OK)
 

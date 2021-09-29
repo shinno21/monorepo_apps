@@ -16,6 +16,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "description",
             "is_express",
             "status",
+            "version",
         ] + BaseModel.base_fields_as_dict()
 
 
@@ -61,6 +62,7 @@ class RetrieveNestedOrderSerializer(serializers.ModelSerializer):
             "is_express",
             "status",
             "order_details",
+            "version",
         ] + BaseModel.base_fields_as_dict()
 
 
@@ -79,4 +81,5 @@ class CreateNestedOrderSerializer(serializers.ModelSerializer):
             "is_express",
             "status",
             "order_details",
+            "version",
         ] + BaseModel.base_fields_as_dict()
