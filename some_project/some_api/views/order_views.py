@@ -54,7 +54,7 @@ class CreateOrderView(CreateAPIView):
         self._create_details(order, serializer.validated_data["order_details"])
         headers = self.get_success_headers(serializer.data)
         added_data = add_fields_to_create_data(order, serializer.data)
-
+        added_data["version"] = order.version
         return Response(
             added_data,
             status=status.HTTP_201_CREATED,
@@ -89,10 +89,8 @@ class UpdateOrderView(UpdateAPIView):
         order.save()
         OrderDetail.objects.filter(order__id=order.id).delete()
         self._create_details(order, serializer.validated_data["order_details"])
-        print("*****3")
-        print(order.version)
-        print(str(serializer.data))
         added_data = add_fields_to_data(order, serializer.data)
+        added_data["version"] = order.version
         return Response(added_data, status=status.HTTP_200_OK)
 
 

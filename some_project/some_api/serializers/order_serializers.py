@@ -7,6 +7,8 @@ from .product_serializers import RetrieveProductSerializer
 class OrderSerializer(serializers.ModelSerializer):
     """OrderのSerializer"""
 
+    version = serializers.IntegerField(required=False)
+
     class Meta:
         model = Order
         fields = [
@@ -70,6 +72,7 @@ class CreateNestedOrderSerializer(serializers.ModelSerializer):
     """Order, OrderDetail 親子関係のSerializer(データ登録用)"""
 
     order_details = CreateOrderDetailSerializer(many=True)
+    version = serializers.IntegerField(required=False)
 
     class Meta:
         model = Order
