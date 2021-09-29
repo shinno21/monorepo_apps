@@ -45,7 +45,7 @@ jobs:
       - name: Lint with flake8
         working-directory: ./${{ env.DJANGO_PROJECT }}
         run: |
-          flake8 ./${DJANGO_PROJECT} --count
+          flake8 . --count
       - name: Test with pytest
         run: |
           pytest
