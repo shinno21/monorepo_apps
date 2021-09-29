@@ -9,10 +9,8 @@ def add_fields_to_data(obj: object, data: OrderedDict) -> OrderedDict:
     """
     sd_list = list(data.items())
     sd_list.insert(len(sd_list), ("cre_user_id", obj.cre_user_id))
-    sd_list.insert(len(sd_list), ("cre_pgm_id", obj.cre_pgm_id))
     sd_list.insert(len(sd_list), ("cre_dt", obj.cre_dt))
     sd_list.insert(len(sd_list), ("upd_user_id", obj.upd_user_id))
-    sd_list.insert(len(sd_list), ("upd_pgm_id", obj.upd_pgm_id))
     sd_list.insert(len(sd_list), ("upd_dt", obj.upd_dt))
     added_data = OrderedDict(sd_list)
     return added_data
@@ -25,18 +23,3 @@ def add_fields_to_create_data(obj: object, data: OrderedDict) -> OrderedDict:
     added_data = OrderedDict(sd_list)
     added_data = add_fields_to_data(obj, added_data)
     return added_data
-
-
-def resolve_view_name(request):
-    """リクエストオブジェクトからviewの名前を返す関数
-    :param request: リクエスト
-    :return: viewの名前(100文字を超える場合は後ろの100文字を返す)
-    """
-
-    func = request.resolver_match.func
-    if hasattr(func, "__self__"):
-        view_real = func.__self__.__class__
-    else:
-        view_real = func
-
-    return "{}.{}".format(view_real.__module__, view_real.__name__)[-100:]

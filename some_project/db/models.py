@@ -70,7 +70,7 @@ def save_exclusive(
     return True
 
 
-def fill_base_fields(obj, username, funcname, update=False):
+def fill_base_fields(obj, username, update=False):
     """共通管理項目(BaseModel)の値を埋める関数
     :param obj: 共通管理項目のカラムを持つモデルのインスタンス
     :param username: ユーザ名(OA番号)
@@ -78,10 +78,8 @@ def fill_base_fields(obj, username, funcname, update=False):
     :param update: 更新の場合はTrueを指定する
     """
     obj.upd_user_id = username
-    obj.upd_pgm_id = funcname
     if not update:
         obj.cre_user_id = obj.upd_user_id
-        obj.cre_pgm_id = obj.upd_pgm_id
 
 
 class UpdateDateTimeField(models.DateTimeField):
@@ -105,15 +103,13 @@ class BaseModel(models.Model):
     """共通管理項目のフィールドを実装するための抽象モデル"""
 
     cre_user_id = models.CharField("作成者ユーザID", max_length=20, editable=False)
-    cre_pgm_id = models.CharField("作成プログラムID", max_length=100, editable=False)
     cre_dt = models.DateTimeField("作成日時", auto_now_add=True)
     upd_user_id = models.CharField("最終更新者ユーザID", max_length=20, editable=False)
-    upd_pgm_id = models.CharField("最終更新プログラムID", max_length=100, editable=False)
     upd_dt = UpdateDateTimeField("更新日時")
 
-    def fill_base_fields(self, username, funcname, update=False):
+    def fill_base_fields(self, username, update=False):
         """リクエストオブジェクトを使って共通管理項目を埋めるショートカットメソッド"""
-        fill_base_fields(self, username, funcname, update)
+        fill_base_fields(self, username, update)
 
     def save_exclusive(self, request=None, using=None):
         """排他制御付きの保存メソッド
@@ -133,6 +129,7 @@ class BaseModel(models.Model):
 
     @classmethod
     def base_fields_as_dict(cls):
+        """管理項目をリストで返す"""
         return [base_field.name for base_field in cls._meta.get_fields()]
 
     class Meta:
