@@ -13,10 +13,8 @@ class SomeClass:
     id: int = 1
     name: str = "Tarou Test"
     cre_user_id: str = "cre1234"
-    cre_pgm_id: str = "crepgm"
     cre_dt: datetime = datetime(2021, 9, 22, 9, 55, 28)
     upd_user_id: str = "upd1234"
-    upd_pgm_id: str = "updpgm"
     upd_dt: datetime = datetime(2021, 9, 23, 9, 55, 28)
 
 
@@ -25,10 +23,8 @@ class TestAddFieldsToData:
 
     ATTRS = [
         "cre_user_id",
-        "cre_pgm_id",
         "cre_dt",
         "upd_user_id",
-        "upd_pgm_id",
         "upd_dt",
     ]
 
@@ -68,7 +64,7 @@ class TestAddFieldsToData:
         rlist = list(rod.items())
 
         assert rlist[0][0] == "key1"
-        assert rlist[7][0] == "upd_dt"
+        assert rlist[5][0] == "upd_dt"
 
 
 class TestAddFieldsToCreateData:
@@ -77,10 +73,8 @@ class TestAddFieldsToCreateData:
     ID_ATTRS = [
         "id",
         "cre_user_id",
-        "cre_pgm_id",
         "cre_dt",
         "upd_user_id",
-        "upd_pgm_id",
         "upd_dt",
     ]
 
@@ -120,4 +114,4 @@ class TestAddFieldsToCreateData:
         rlist = list(rod.items())
         assert rlist[0][0] == "id"
         assert rlist[1][0] == "key1"
-        assert rlist[8][0] == "upd_dt"
+        assert rlist[6][0] == "upd_dt"
