@@ -7,6 +7,8 @@ from .product_serializers import RetrieveProductSerializer
 class OrderSerializer(serializers.ModelSerializer):
     """OrderのSerializer"""
 
+    version = serializers.IntegerField(required=False)
+
     class Meta:
         model = Order
         fields = [
@@ -16,6 +18,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "description",
             "is_express",
             "status",
+            "version",
         ] + BaseModel.base_fields_as_dict()
 
 
@@ -43,7 +46,7 @@ class CreateOrderDetailSerializer(serializers.ModelSerializer):
             "id",
             "product",
             "num",
-        ] + BaseModel.base_fields_as_dict()
+        ]
 
 
 class RetrieveNestedOrderSerializer(serializers.ModelSerializer):
@@ -61,6 +64,7 @@ class RetrieveNestedOrderSerializer(serializers.ModelSerializer):
             "is_express",
             "status",
             "order_details",
+            "version",
         ] + BaseModel.base_fields_as_dict()
 
 
@@ -68,6 +72,7 @@ class CreateNestedOrderSerializer(serializers.ModelSerializer):
     """Order, OrderDetail 親子関係のSerializer(データ登録用)"""
 
     order_details = CreateOrderDetailSerializer(many=True)
+    version = serializers.IntegerField(required=False)
 
     class Meta:
         model = Order
@@ -79,4 +84,5 @@ class CreateNestedOrderSerializer(serializers.ModelSerializer):
             "is_express",
             "status",
             "order_details",
+            "version",
         ] + BaseModel.base_fields_as_dict()

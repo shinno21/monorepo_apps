@@ -4,8 +4,8 @@ from collections import OrderedDict
 def add_fields_to_data(obj: object, data: OrderedDict) -> OrderedDict:
     """dataに管理項目を付与する.主にAPIの戻り値として返すデータを作成するために利用.
     :param object obj: 管理項目を設定したオブジェクト
-    :param object obj: リクエスト
-    :return: viewの名前(100文字を超える場合は後ろの100文字を返す)
+    :param OrderedDict data: APIインプットのserializer.data
+    :return: dataにobjの管理項目を設定したOrderedDict
     """
     sd_list = list(data.items())
     sd_list.insert(len(sd_list), ("cre_user_id", obj.cre_user_id))
@@ -17,7 +17,11 @@ def add_fields_to_data(obj: object, data: OrderedDict) -> OrderedDict:
 
 
 def add_fields_to_create_data(obj: object, data: OrderedDict) -> OrderedDict:
-    """dataに id と管理項目を付与する.主にデータ追加APIの戻り値として返すデータを作成するために利用."""
+    """dataに id と管理項目を付与する.主にデータ追加APIの戻り値として返すデータを作成するために利用.
+    :param object obj: 管理項目を設定したオブジェクト
+    :param OrderedDict data: APIインプットのserializer.data
+    :return: dataにobjのidと管理項目を設定したOrderedDict
+    """
     sd_list = list(data.items())
     sd_list.insert(0, ("id", obj.id))
     added_data = OrderedDict(sd_list)

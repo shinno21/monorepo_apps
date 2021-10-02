@@ -13,7 +13,6 @@ from ..serializers.order_serializers import (
     RetrieveNestedOrderSerializer,
     CreateNestedOrderSerializer,
 )
-from db.exceptions import TargetRecordDoesNotExist
 from utils.helpers import (
     add_fields_to_data,
     add_fields_to_create_data,
@@ -36,8 +35,13 @@ class CreateOrderView(CreateAPIView):
         """注文配下の注文詳細を全登録する"""
 
         for s_od in order_datails:
-            od = OrderDetail(order=order, product=s_od["product"], num=s_od["num"])
-            od.fill_base_fields(order.upd_user_id)
+            od = OrderDetail(
+                order=order,
+                product=s_od["product"],
+                num=s_od["num"],
+                cre_user_id=order.cre_user_id,
+                upd_user_id=order.upd_user_id,
+            )
             od.save()
 
     def post(self, request):
@@ -49,13 +53,14 @@ class CreateOrderView(CreateAPIView):
             description=serializer.validated_data["description"],
             is_express=serializer.validated_data["is_express"],
             status=serializer.validated_data["status"],
+            cre_user_id=serializer.validated_data["cre_user_id"],
+            upd_user_id=serializer.validated_data["upd_user_id"],
         )
-        order.fill_base_fields(request.user.username)
         order.save()
         self._create_details(order, serializer.validated_data["order_details"])
         headers = self.get_success_headers(serializer.data)
         added_data = add_fields_to_create_data(order, serializer.data)
-
+        added_data["version"] = order.version
         return Response(
             added_data,
             status=status.HTTP_201_CREATED,
@@ -71,10 +76,14 @@ class UpdateOrderView(UpdateAPIView):
 
     def _create_details(self, order, order_datails):
         """注文配下の注文詳細を全登録する"""
-
         for s_od in order_datails:
-            od = OrderDetail(order=order, product=s_od["product"], num=s_od["num"])
-            od.fill_base_fields(order.upd_user_id)
+            od = OrderDetail(
+                order=order,
+                product=s_od["product"],
+                num=s_od["num"],
+                cre_user_id=order.cre_user_id,
+                upd_user_id=order.upd_user_id,
+            )
             od.save()
 
     def put(self, request, *args, **kwargs):
@@ -86,16 +95,14 @@ class UpdateOrderView(UpdateAPIView):
         order.description = serializer.validated_data["description"]
         order.is_express = serializer.validated_data["is_express"]
         order.status = serializer.validated_data["status"]
-        order.upd_dt = serializer.validated_data["upd_dt"]
-        try:
-            order.fill_base_fields(request.user.username, update=True)
-            order.save_exclusive()
-        except TargetRecordDoesNotExist:
-            return Response(status=status.HTTP_423_LOCKED)
-
+        order.version = serializer.validated_data["version"]
+        order.cre_user_id = serializer.validated_data["upd_user_id"]
+        order.upd_user_id = serializer.validated_data["upd_user_id"]
+        order.save()
         OrderDetail.objects.filter(order__id=order.id).delete()
         self._create_details(order, serializer.validated_data["order_details"])
         added_data = add_fields_to_data(order, serializer.data)
+        added_data["version"] = order.version
         return Response(added_data, status=status.HTTP_200_OK)
 
 

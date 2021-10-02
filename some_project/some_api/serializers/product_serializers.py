@@ -8,6 +8,8 @@ from .manufacturer_serializers import ManufacturerSerializer
 class ProductSerializer(serializers.ModelSerializer):
     """ProductのSerializer"""
 
+    version = serializers.IntegerField(required=False)
+
     class Meta:
         model = Product
         fields = [
@@ -15,6 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "name",
             "price",
             "manufacturer",
+            "version",
         ] + BaseModel.base_fields_as_dict()
 
     def validate_price(self, value):
@@ -31,6 +34,7 @@ class RetrieveProductSerializer(serializers.ModelSerializer):
     """ProductのSerializer"""
 
     manufacturer = ManufacturerSerializer(read_only=True)
+    version = serializers.IntegerField(required=False)
 
     class Meta:
         model = Product
@@ -39,4 +43,5 @@ class RetrieveProductSerializer(serializers.ModelSerializer):
             "name",
             "price",
             "manufacturer",
+            "version",
         ] + BaseModel.base_fields_as_dict()

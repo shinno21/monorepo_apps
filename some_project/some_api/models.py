@@ -1,5 +1,6 @@
 from django.db import models
 from db.models import BaseModel
+from concurrency.fields import AutoIncVersionField
 
 
 class Manufacturer(BaseModel):
@@ -26,6 +27,7 @@ class Product(BaseModel):
     cd = models.CharField("コード", primary_key=True, max_length=20)
     name = models.CharField("名称", unique=True, max_length=40)
     price = models.IntegerField("価格")
+    version = AutoIncVersionField(verbose_name="バージョン")
     manufacturer = models.ForeignKey(
         Manufacturer,
         related_name="product_manufacturer",
@@ -51,6 +53,7 @@ class Order(BaseModel):
     description = models.CharField("備考", max_length=1000, blank=True, null=True)
     is_express = models.BooleanField("お急ぎ便フラグ")
     status = models.CharField("ステータス", choices=ORDER_STATUS_CHOICES, max_length=2)
+    version = AutoIncVersionField(verbose_name="バージョン")
 
     class Meta:
         verbose_name = verbose_name_plural = "注文"
