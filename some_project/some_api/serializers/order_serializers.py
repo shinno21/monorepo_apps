@@ -46,7 +46,7 @@ class CreateOrderDetailSerializer(serializers.ModelSerializer):
             "id",
             "product",
             "num",
-        ] + BaseModel.base_fields_as_dict()
+        ]
 
 
 class RetrieveNestedOrderSerializer(serializers.ModelSerializer):

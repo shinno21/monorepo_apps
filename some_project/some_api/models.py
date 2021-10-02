@@ -27,6 +27,7 @@ class Product(BaseModel):
     cd = models.CharField("コード", primary_key=True, max_length=20)
     name = models.CharField("名称", unique=True, max_length=40)
     price = models.IntegerField("価格")
+    version = AutoIncVersionField(verbose_name="バージョン")
     manufacturer = models.ForeignKey(
         Manufacturer,
         related_name="product_manufacturer",
