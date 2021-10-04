@@ -1,4 +1,5 @@
 import datetime
+import pytz
 import pytest
 from some_api.services.order_services import create_order
 from some_api.models import Order, OrderDetail
@@ -13,7 +14,7 @@ class TestCreateOrder:
     def param_order_parent(self):
         order = Order(
             order_person="Tarou Test",
-            order_day=datetime.date(2021, 10, 1),
+            order_day=datetime.datetime.now(pytz.timezone("Asia/Tokyo")),
             description="test",
             is_express=True,
             status="10",
