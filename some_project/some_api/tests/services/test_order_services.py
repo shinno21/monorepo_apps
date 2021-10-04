@@ -6,11 +6,11 @@ from ...models import Order, OrderDetail
 from ..factories import ProductFactory
 
 
+@pytest.mark.django_db
 class TestCreateOrder:
     """create_order のテスト"""
 
     @pytest.fixture
-    @pytest.mark.django_db
     def param_order_parent(self):
         order = Order(
             order_person="Tarou Test",
@@ -27,7 +27,6 @@ class TestCreateOrder:
         order_details = [od1, od2]
         return order, order_details
 
-    @pytest.mark.django_db
     def test_create_parent(self, param_order_parent):
         order, order_details = param_order_parent
         cre_order = create_order(order, order_details)

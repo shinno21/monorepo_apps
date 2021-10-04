@@ -9,8 +9,8 @@ from ..factories import ProductFactory
 from ...models import Order, OrderDetail
 
 
+@pytest.mark.django_db
 class TestCreateOrderView:
-    @pytest.mark.django_db
     def test_create_order_ok(self):
         ProductFactory(cd="01")
         ProductFactory(cd="02")
