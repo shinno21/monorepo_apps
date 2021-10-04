@@ -1,9 +1,9 @@
 import datetime
 import pytz
 import pytest
-from some_api.services.order_services import create_order
-from some_api.models import Order, OrderDetail
-from some_api.tests.factories import ProductFactory
+from ...services.order_services import create_order
+from ...models import Order, OrderDetail
+from ..factories import ProductFactory
 
 
 @pytest.mark.django_db
