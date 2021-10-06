@@ -1,12 +1,14 @@
-import json
-import pytest
 import datetime
+import json
+
+import pytest
 import pytz
-from rest_framework.test import APIRequestFactory
 from rest_framework import status
+from rest_framework.test import APIRequestFactory
+
+from ...models import Order, OrderDetail
 from ...views.order_views import CreateOrderView
 from ..factories import ProductFactory
-from ...models import Order, OrderDetail
 
 
 @pytest.mark.django_db

@@ -1,14 +1,15 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework import routers
+
 from .views.manufacturer_views import ManufacturerViewSet
-from .views.product_views import ProductViewSet, ListProductView, RetrieveProductView
 from .views.order_views import (
     CreateOrderView,
-    UpdateOrderView,
-    RetrieveOrderView,
-    ListOrderView,
     DestroyOrderView,
+    ListOrderView,
+    RetrieveOrderView,
+    UpdateOrderView,
 )
+from .views.product_views import ListProductView, ProductViewSet, RetrieveProductView
 
 app_name = "some_api"
 

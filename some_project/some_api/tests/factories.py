@@ -1,11 +1,12 @@
+from factory import Faker, Sequence, SubFactory, fuzzy
 from factory.django import DjangoModelFactory
-from factory import Sequence, fuzzy, Faker, SubFactory
+
 from some_api.models import (
+    ORDER_STATUS_CHOICES,
+    Manufacturer,
     Order,
     OrderDetail,
     Product,
-    Manufacturer,
-    ORDER_STATUS_CHOICES,
 )
 
 

@@ -1,11 +1,10 @@
-import pytest
+from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime
-from collections import OrderedDict
-from utils.helpers import (
-    add_fields_to_data,
-    add_fields_to_create_data,
-)
+
+import pytest
+
+from utils.helpers import add_fields_to_create_data, add_fields_to_data
 
 
 @dataclass

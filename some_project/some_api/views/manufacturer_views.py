@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+
 from ..models import Manufacturer
 from ..serializers.manufacturer_serializers import ManufacturerSerializer
 

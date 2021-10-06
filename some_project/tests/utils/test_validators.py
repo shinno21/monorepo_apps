@@ -1,4 +1,5 @@
 import pytest
+
 from utils.validators import is_alnum_ascii
 
 

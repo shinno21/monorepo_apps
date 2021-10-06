@@ -1,8 +1,10 @@
 import datetime
-import pytz
+
 import pytest
-from ...services.order_services import create_order
+import pytz
+
 from ...models import Order, OrderDetail
+from ...services.order_services import create_order
 from ..factories import ProductFactory
 
 

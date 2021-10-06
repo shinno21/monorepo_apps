@@ -1,5 +1,6 @@
-from some_api.models import Order, OrderDetail
 from typing import List
+
+from some_api.models import Order, OrderDetail
 
 
 def create_order(order: Order, order_details: List[OrderDetail]) -> Order:
