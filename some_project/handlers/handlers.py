@@ -1,7 +1,7 @@
+from concurrency.exceptions import RecordModifiedError
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
-from rest_framework import status
-from concurrency.exceptions import RecordModifiedError
 
 
 def api_exception_handler(exc: Exception, context: dict) -> Response:
