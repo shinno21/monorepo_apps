@@ -1,10 +1,11 @@
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+
 from ..models import Product
 from ..serializers.product_serializers import (
     ProductSerializer,
     RetrieveProductSerializer,
 )
-from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 
 class ListProductView(ListAPIView):

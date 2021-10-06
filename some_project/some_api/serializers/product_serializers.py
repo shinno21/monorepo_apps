@@ -1,7 +1,9 @@
 from rest_framework import serializers
-from ..models import Product
+
 from db.models import BaseModel
 from messages.error import NUM_RANGE_ERROR
+
+from ..models import Product
 from .manufacturer_serializers import ManufacturerSerializer
 
 

@@ -1,6 +1,7 @@
-from django.db import models
-from db.models import BaseModel
 from concurrency.fields import AutoIncVersionField
+from django.db import models
+
+from db.models import BaseModel
 
 
 class Manufacturer(BaseModel):

@@ -1,23 +1,22 @@
 from rest_framework import status
 from rest_framework.generics import (
     CreateAPIView,
-    UpdateAPIView,
-    RetrieveAPIView,
-    ListAPIView,
     DestroyAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
 )
 from rest_framework.response import Response
+
+from utils.helpers import add_fields_to_create_data, add_fields_to_data
+
 from ..models import Order, OrderDetail
 from ..serializers.order_serializers import (
+    CreateNestedOrderSerializer,
     OrderSerializer,
     RetrieveNestedOrderSerializer,
-    CreateNestedOrderSerializer,
 )
 from ..services.order_services import create_order, update_order
-from utils.helpers import (
-    add_fields_to_data,
-    add_fields_to_create_data,
-)
 
 
 class ListOrderView(ListAPIView):

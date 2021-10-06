@@ -1,8 +1,10 @@
 from rest_framework import serializers
-from ..models import Manufacturer
+
 from db.models import BaseModel
-from utils.validators import is_alnum_ascii
 from messages.error import ALNUM_ASCII_ERROR
+from utils.validators import is_alnum_ascii
+
+from ..models import Manufacturer
 
 
 class ManufacturerSerializer(serializers.ModelSerializer):

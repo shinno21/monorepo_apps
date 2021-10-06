@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from ..models import Order, OrderDetail
+
 from db.models import BaseModel
+
+from ..models import Order, OrderDetail
 from .product_serializers import RetrieveProductSerializer
 
 

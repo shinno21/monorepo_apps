@@ -1,0 +1,4 @@
+[tool.isort]
+line_length=88
+skip_glob = "*/migrations/*.py,src/lib/*.py"
+profile="black"

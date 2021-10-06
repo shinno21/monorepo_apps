@@ -46,6 +46,10 @@ jobs:
         working-directory: ./${{ env.DJANGO_PROJECT }}
         run: |
           flake8 . --count
+      - name: Run isort
+        uses: olance/isort-action@v1.0.0
+        with:
+          args: ./src
       - name: Test with pytest
         working-directory: ./${{ env.DJANGO_PROJECT }}
         # migrations, migrate は migrateファイルをリポジトリに配置後は不要なので削除
