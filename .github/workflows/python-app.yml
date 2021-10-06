@@ -47,5 +47,9 @@ jobs:
         run: |
           flake8 . --count
       - name: Test with pytest
+        working-directory: ./${{ env.DJANGO_PROJECT }}
+        # migrations, migrate は migrateファイルをリポジトリに配置後は不要なので削除
         run: |
+          python manage.py makemigrations
+          python manage.py migrate
           pytest
