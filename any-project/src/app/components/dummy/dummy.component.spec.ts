@@ -1,19 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnyPageComponent } from './any-page.component';
+import { DummyComponent } from './dummy.component';
 
-describe('AnyPageComponent', () => {
-  let component: AnyPageComponent;
-  let fixture: ComponentFixture<AnyPageComponent>;
+describe('DummyComponent', () => {
+  let component: DummyComponent;
+  let fixture: ComponentFixture<DummyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AnyPageComponent]
-    }).compileComponents();
+      declarations: [ DummyComponent ]
+    })
+    .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnyPageComponent);
+    fixture = TestBed.createComponent(DummyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

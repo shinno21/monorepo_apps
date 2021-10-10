@@ -1,0 +1,12 @@
+
+<!-- サイドナビゲーションメニュー -->
+<mat-sidenav mode="side"
+  opened
+  class="side-nav-menu"
+  [fixedInViewport]="formGroupOptions.value.fixed" [fixedTopGap]="formGroupOptions.value.top"
+  [fixedBottomGap]="formGroupOptions.value.bottom"
+  >
+  <div *ngFor="let menu of menuItemList" class="side-nav-menu-item-list" [class.menu-item-selected]="menu.pageId === this.currentPageId">
+    <a [routerLink]="menu.routerLink" class="side-nav-menu-item">{{menu.displayName}}</a>
+  </div>
+</mat-sidenav>
