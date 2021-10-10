@@ -20,10 +20,12 @@ from django.contrib import admin
 from django.urls import include
 
 # from django.urls import path
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(r"^some_api/", include("some_api.urls", namespace="some_api")),
+    url(r"^docs/", include_docs_urls(title="API Document")),
 ]
 
 if "silk" in settings.INSTALLED_APPS:
