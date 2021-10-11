@@ -3,6 +3,6 @@
  */
 export interface MenuItem {
   displayName: string;
-  pageId: string;
+  pageUrl: string;
   routerLink: string;
 }
