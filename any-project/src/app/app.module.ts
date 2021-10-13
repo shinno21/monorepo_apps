@@ -11,6 +11,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DummyComponent } from './components/dummy/dummy.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { HttpClientModule } from '@angular/common/http';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -25,9 +32,16 @@ import { DummyComponent } from './components/dummy/dummy.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatTableModule
   ],
 
   providers: [],

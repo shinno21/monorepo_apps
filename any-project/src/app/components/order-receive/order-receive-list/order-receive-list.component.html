@@ -1,4 +1,54 @@
 <app-menu></app-menu>
 <mat-sidenav-content class="main">
-  <div>メインコンテンツ</div>
+  <div class="header">
+    <div class="header-start">
+      <h2>受注一覧</h2>
+    </div>
+    <div class="header-end">
+      <button mat-raised-button color="primary"><mat-icon>add</mat-icon>追加</button>
+      <button mat-raised-button color="warn"><mat-icon>remove</mat-icon>削除</button>
+    </div>
+  </div>
+  <div class="section">
+
+
+  </div>
+  <div class="content">
+    <table mat-table [dataSource]="orderList" *ngIf="orderList">
+      <ng-container matColumnDef="checkbox">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element"> {{element.checkbox}} </td>
+      </ng-container>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>伝票番号</th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+      <ng-container matColumnDef="order_day">
+        <th mat-header-cell *matHeaderCellDef>発注日</th>
+        <td mat-cell *matCellDef="let element"> {{element.order_day}} </td>
+      </ng-container>
+      <ng-container matColumnDef="order_person">
+        <th mat-header-cell *matHeaderCellDef>発注者氏名</th>
+        <td mat-cell *matCellDef="let element"> {{element.order_person}} </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>ステータス</th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+      <ng-container matColumnDef="is_express">
+        <th mat-header-cell *matHeaderCellDef>お急ぎ便</th>
+        <td mat-cell *matCellDef="let element"> {{element.is_express}} </td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>備考</th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element"> {{element.edit}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="orderListColumn"></tr>
+      <tr mat-row *matRowDef="let row; columns: orderListColumn;"></tr>
+    </table>
+  </div>
 </mat-sidenav-content>
