@@ -16,13 +16,24 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   // Orderデータ一覧を取得する
-  getOrderList(): Observable<Order[]> {
+  getOrderList(limit: number = 100, offset: number = 0): Observable<Order[]> {
     return this.http
-      .get<Order[]>(`${environment.apiEndpoint}/order/list/`)
+      .get<Order[]>(
+        `${environment.apiEndpoint}/order/list/?limit=${limit}&offset=${offset}`
+      )
       .pipe(
         map((res: any) => {
+          console.log(res.results);
           return res.results;
+        }),
+        map((results: any) => {
+          results.map((result: Order) => {
+            result.order_day = new Date(result.order_day).toLocaleDateString();
+          });
+          return results;
         })
+        // ステータスの変換
+        // お急ぎ便の変換
       );
   }
 }

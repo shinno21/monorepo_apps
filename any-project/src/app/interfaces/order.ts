@@ -5,13 +5,13 @@
 export interface Order {
   id: number;
   order_person: string;
-  order_day: Date;
+  order_day: string;
   description: string;
   is_express: boolean;
   status: string;
   version: number;
   cre_user_id: number;
-  cre_dt: Date;
+  cre_dt: string;
   upd_user_id: number;
-  upd_dt: Date;
+  upd_dt: string;
 }

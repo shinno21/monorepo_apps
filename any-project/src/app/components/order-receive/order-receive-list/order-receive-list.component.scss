@@ -12,3 +12,19 @@
 .search-area {
   width: 100%;
 }
+
+table {
+  width: 100%;
+}
+
+.content-container {
+  height: 70vh;
+  min-height: 70vh;
+  overflow:auto;
+}
+
+.mat-paginator-sticky {
+  bottom: 0;
+  position: sticky;
+  z-index: 10;
+}
