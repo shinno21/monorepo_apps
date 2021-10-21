@@ -60,7 +60,7 @@ class Order(BaseModel):
         verbose_name = verbose_name_plural = "注文"
 
     def __str__(self):
-        return self.name
+        return self.order_person
 
 
 class OrderDetail(BaseModel):
