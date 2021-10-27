@@ -14,38 +14,65 @@
 
   </div>
   <div class="content content-container">
-    <table mat-table [dataSource]="orderList" *ngIf="orderList">
+    <table mat-table
+          [dataSource]="orderList"
+          *ngIf="orderList"
+          matSort
+          (matSortChange)="announceSortChange($event)"
+    >
       <ng-container matColumnDef="checkbox">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element"> {{element.checkbox}} </td>
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? toggleTopCheckBox() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          ></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(element): null"
+            [checked]="selection.isSelected(element)"
+          ></mat-checkbox>
+        </td>
       </ng-container>
       <ng-container matColumnDef="id">
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header>伝票番号</th>-->
         <th mat-header-cell *matHeaderCellDef>伝票番号</th>
         <td mat-cell *matCellDef="let element"> {{element.id}} </td>
       </ng-container>
       <ng-container matColumnDef="order_day">
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header>発注日</th>-->
         <th mat-header-cell *matHeaderCellDef>発注日</th>
         <td mat-cell *matCellDef="let element"> {{element.order_day}} </td>
       </ng-container>
       <ng-container matColumnDef="order_person">
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header>発注者氏名</th>-->
         <th mat-header-cell *matHeaderCellDef>発注者氏名</th>
         <td mat-cell *matCellDef="let element"> {{element.order_person}} </td>
       </ng-container>
       <ng-container matColumnDef="status">
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header>ステータス</th>-->
         <th mat-header-cell *matHeaderCellDef>ステータス</th>
         <td mat-cell *matCellDef="let element"> {{element.status}} </td>
       </ng-container>
       <ng-container matColumnDef="is_express">
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header>お急ぎ便</th>-->
         <th mat-header-cell *matHeaderCellDef>お急ぎ便</th>
         <td mat-cell *matCellDef="let element"> {{element.is_express}} </td>
       </ng-container>
       <ng-container matColumnDef="description">
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header>備考</th>-->
         <th mat-header-cell *matHeaderCellDef>備考</th>
         <td mat-cell *matCellDef="let element"> {{element.description}} </td>
       </ng-container>
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element"> {{element.edit}} </td>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="onEditOrderReceiveButtonClqicked($event, element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="orderListColumn; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: orderListColumn;"></tr>
