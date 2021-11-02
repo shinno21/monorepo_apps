@@ -15,3 +15,6 @@ export const MENU_ITEM_LIST: MenuItem[] = [
 
 
 export const tablePageSizeOptions: number[] = [5, 10, 25, 100, 200, 500, 1000]
+
+export const PAGE_TYPE_NEW = "new";
+export const PAGE_TYPE_UPDATE = "update"

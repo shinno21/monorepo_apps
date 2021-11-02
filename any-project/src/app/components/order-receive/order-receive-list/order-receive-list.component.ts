@@ -103,5 +103,6 @@ export class OrderReceiveListComponent
   onEditOrderReceiveButtonClicked(event: any, order: Order) {
     const currentOrder = order;
     // 明細画面で利用する
+    this.router.navigate(["detail", order.id]);
   }
 }
