@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MENU_ITEM_LIST } from '../../consts';
-import { MenuItem } from '../../interfaces/menu-item';
+import { MenuItem } from '../../entities/menu-item';
 import { Router } from '@angular/router';
 
 @Component({

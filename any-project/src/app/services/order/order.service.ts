@@ -4,10 +4,11 @@ import {
   HttpErrorResponse,
   HttpResponse
 } from '@angular/common/http';
-import { Order } from '../../interfaces/order';
+import { Order } from '../../entities/order';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map, tap } from 'rxjs/operators';
+import { orderParser } from '../../utils/entity_parsers';
 
 @Injectable({
   providedIn: 'root'
@@ -23,17 +24,25 @@ export class OrderService {
       )
       .pipe(
         map((res: any) => {
-          console.log(res.results);
           return res.results;
         }),
         map((results: any) => {
-          results.map((result: Order) => {
-            result.order_day = new Date(result.order_day).toLocaleDateString();
+          let parsedResults = results.map((result: Order) => {
+            // ステータスコードや日付を画面表示用に整形・変換する
+            return orderParser(result);
           });
-          return results;
+          return parsedResults;
         })
-        // ステータスの変換
-        // お急ぎ便の変換
       );
+  }
+  // Orderデータを取得する
+  getOrder(id: number): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiEndpoint}/order/${id}/`).pipe(
+      map((order: Order) => {
+        let results = orderParser(order);
+        console.log(results);
+        return results;
+      })
+    );
   }
 }

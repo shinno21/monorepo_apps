@@ -7,7 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { OrderService } from '../../../services/order/order.service';
-import { Order } from '../../../interfaces/order';
+import { Order } from '../../../entities/order';
 import { Observable, Subscription } from 'rxjs';
 import { tablePageSizeOptions } from 'src/app/consts';
 import { MatPaginator } from '@angular/material/paginator';
