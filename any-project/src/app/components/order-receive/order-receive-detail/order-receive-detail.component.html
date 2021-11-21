@@ -13,5 +13,41 @@
 
   </div>
   <div class="content content-container">
+<!--    <div *ngIf="orderData$ | async as orderData">-->
+    <div *ngIf="orderData">
+      <form class="form-context">
+        <mat-form-field class="form-field form-field-size-quarter">
+          <mat-label>伝票番号</mat-label>
+          <input matInput disabled value="{{orderData.id}}">
+        </mat-form-field>
+        <mat-form-field class="form-field form-field-size-quarter">
+          <mat-label>発注日</mat-label>
+          <input matInput [matDatepicker]="picker" [defaultValue]="orderData.order_day">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+<!--          <mat-datepicker touchUi #picker [startAt]='orderData.order_day | date:"yyyy/MM/dd"'></mat-datepicker>-->
+          <mat-datepicker touchUi #picker [startAt]="orderDay"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="form-field form-field-size-quarter">
+          <mat-label>発注者名</mat-label>
+          <input matInput value="{{orderData.order_person}}">
+        </mat-form-field>
+
+        <mat-checkbox class="form-field form-field-size-quarter" [checked]="orderData.is_express">お急ぎ便</mat-checkbox>
+
+        <mat-form-field class="form-field form-field-size-quarter">
+          <mat-label>ステータス</mat-label>
+          <mat-select [(value)]="orderStatusSelected">
+            <mat-option *ngFor="let status of orderStatusList" [value]="status.status_cd">
+              {{status.status_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-field form-field-size-three-quarters">
+          <mat-label>備考</mat-label>
+          <textarea matInput [rows]="4" >{{orderData.description}}</textarea>
+        </mat-form-field>
+      </form>
+
+    </div>
   </div>
 </mat-sidenav-content>
